@@ -9,9 +9,10 @@ use App\Entity\Catalog;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\LocalSupplier;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\OlocalProvider;
-use Doctrine\Persistence\ObjectManager;
+use FakerRestaurant\Provider\fr_FR\Restaurant;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -27,6 +28,7 @@ class AppFixtures extends Fixture
     {   
         $faker= Factory::create('fr_FR');
         $faker->addProvider(new OlocalProvider($faker));
+        $faker->addProvider(new Restaurant($faker));
 
         // we create all regions
         $regionsList = [];
@@ -161,25 +163,7 @@ class AppFixtures extends Fixture
         $manager->persist($category);
 
         $category = new Category;
-        $category->setName("Céréales, Légumineuses et Féculents");
-        $category->setCreatedAt(new \DateTime());
-        $categoriesList[] = $category;
-        $manager->persist($category);
-
-        $category = new Category;
         $category->setName("Lait et Produits Laitiers");
-        $category->setCreatedAt(new \DateTime());
-        $categoriesList[] = $category;
-        $manager->persist($category);
-
-        $category = new Category;
-        $category->setName("Matières Grasses");
-        $category->setCreatedAt(new \DateTime());
-        $categoriesList[] = $category;
-        $manager->persist($category);
-
-        $category = new Category;
-        $category->setName("Sucre et produits sucrés");
         $category->setCreatedAt(new \DateTime());
         $categoriesList[] = $category;
         $manager->persist($category);
@@ -187,30 +171,24 @@ class AppFixtures extends Fixture
         $category = new Category;
         $category->setName("Boissons");
         $category->setCreatedAt(new \DateTime());
-        $categoriesList[] = $category;
-        $manager->persist($category);
-
-        $category = new Category;
-        $category->setName("Alcools");
-        $category->setCreatedAt(new \DateTime());
-        $categoriesList[] = $category;
+        //$categoriesList[] = $category;
         $manager->persist($category);
 
         $category = new Category;
         $category->setName("Hygiène et beauté");
         $category->setCreatedAt(new \DateTime());
-        $categoriesList[] = $category;
+        //$categoriesList[] = $category;
         $manager->persist($category);
 
         $category = new Category;
         $category->setName("Entretien et Nettoyage");
         $category->setCreatedAt(new \DateTime());
-        $categoriesList[] = $category;
+        //$categoriesList[] = $category;
         $manager->persist($category);   
 
-        // we create 200 local suppliers
+        // we create 30 local suppliers
         $localList = [];
-        for ($i = 0; $i < 200; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             $localSupplier = new LocalSupplier();
             $localSupplier->setName($faker->unique()->company());
             $localSupplier->setSiret($faker->numberBetween(10000000000000, 99999999999999));
@@ -223,6 +201,63 @@ class AppFixtures extends Fixture
 
             $localList[] = $localSupplier;
             $manager->persist($localSupplier);
+        }
+
+        // we create 55 products
+        $productsList = [];
+        for ($p = 0; $p < 55; $p++) {
+            $randomCategory = $categoriesList[array_rand($categoriesList)];
+            $product = null;
+            switch ($randomCategory->getName()) {
+                case 'Légumes':
+                    $vegetable = $faker->vegetableName();
+                    if (!in_array($vegetable, $productsList)) {
+                        $product = new Product();
+                        $product->setCreatedAt(new \DateTime());
+                        $product->setName($vegetable);
+                    }
+                    break;
+                case 'Fruits':
+                    $fruit = $faker->fruitName();
+                    if (!in_array($fruit, $productsList)) {
+                        $product = new Product();
+                        $product->setCreatedAt(new \DateTime());
+                        $product->setName($fruit);
+                    }
+                    break;
+                case 'Boissons':
+                    $beverage = $faker->beverageName();
+                    if (!in_array($beverage, $productsList)) {
+                        $product = new Product();
+                        $product->setCreatedAt(new \DateTime());
+                        $product->setName($beverage);
+                    }
+                    break;
+                case 'Viandes, Oeufs et Poissons':
+                    $meat = $faker->meatName();
+                    if (!in_array($meat, $productsList)) {
+                        $product = new Product();
+                        $product->setCreatedAt(new \DateTime());
+                        $product->setName($meat);
+                    }
+                    break;
+                case 'Lait et Produits Laitiers':
+                    $dairy = $faker->dairyName();
+                    if (!in_array($dairy, $productsList)) {
+                        $product = new Product();
+                        $product->setCreatedAt(new \DateTime());
+                        $product->setName($dairy);
+                    }
+                    break;
+            }
+
+            if ($product) {
+                $product->setCategory($randomCategory);
+                $productsList[] = $product;
+            }
+            else {
+                $p--;
+            }
         }
 
         // we create 50 users (shopkeepers)    
@@ -254,29 +289,18 @@ class AppFixtures extends Fixture
             $randomRegion = $regionsList[array_rand($regionsList)];
             $user->setRegion($randomRegion);
 
-                // we create between 3 and 10 products
-                $productsList = [];
-                for ($p = 0; $p < mt_rand(3, 10); $p++) {
-                    $product = new Product();
-                    $product->setName($faker->word());
-                    $product->setCreatedAt(new \DateTime());
-
-                    $randomCategory = $categoriesList[array_rand($categoriesList)];
-                    $product->setCategory($randomCategory);
-
-                    
-                    $catalogProduct = new Catalog;
-                    $catalogProduct->setUser($user);
-                    $catalogProduct->setProduct($product);
-                    $randomLocal = $localList[array_rand($localList)];
-                    $catalogProduct->setLocalSupplier($randomLocal);
-
-                    $product->addCatalog($catalogProduct); 
-                    
-
-                    $productsList[] = $product;
-                    $manager->persist($catalogProduct);
-                }
+            // we give between 3 and 10 products
+            for ($p = 0; $p < mt_rand(3, 10); $p++) {
+                $product = $productsList[array_rand($productsList)];
+                $product->setCreatedAt(new \DateTime());
+                $catalogProduct = new Catalog;
+                $catalogProduct->setUser($user);
+                $catalogProduct->setProduct($product);
+                $randomLocal = $localList[array_rand($localList)];
+                $catalogProduct->setLocalSupplier($randomLocal);
+                $product->addCatalog($catalogProduct); 
+                $manager->persist($catalogProduct);
+            }
 
             $usersList[] = $user;
             $manager->persist($user);
@@ -306,28 +330,20 @@ class AppFixtures extends Fixture
         $custom->setWebsite('http://www.monsitewebtropbeau.com');
         $custom->setCreatedAt(new \DateTime());    
         $custom->setRegion($regionA);
-            // we create between 30 products
-            $productsList = [];
-            for ($p = 0; $p < 30; $p++) {
-                $product = new Product();
-                $product->setName($faker->word());
-                $product->setCreatedAt(new \DateTime());
 
-                $randomCategory = $categoriesList[array_rand($categoriesList)];
-                $product->setCategory($randomCategory);
-            
-                $catalogProduct = new Catalog;
-                $catalogProduct->setUser($custom);
-                $catalogProduct->setProduct($product);
-                $randomLocal = $localList[array_rand($localList)];
-                
-                $catalogProduct->setLocalSupplier($randomLocal);
+        // we give between 3 and 10 products
+        for ($p = 0; $p < mt_rand(3, 10); $p++) {
+            $product = $productsList[array_rand($productsList)];
+            $product->setCreatedAt(new \DateTime());
+            $catalogProduct = new Catalog;
+            $catalogProduct->setUser($user);
+            $catalogProduct->setProduct($product);
+            $randomLocal = $localList[array_rand($localList)];
+            $catalogProduct->setLocalSupplier($randomLocal);
+            $product->addCatalog($catalogProduct); 
+            $manager->persist($catalogProduct);
+        }
 
-                $product->addCatalog($catalogProduct); 
-
-                $productsList[] = $product;
-                $manager->persist($catalogProduct);
-            }
         $usersList[] = $custom;
         $manager->persist($custom);
 

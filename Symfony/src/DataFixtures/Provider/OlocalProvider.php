@@ -31,12 +31,8 @@ private static $categories=[
     "Fruits",
     "Légumes",
     "Viandes, Oeufs et Poissons",
-    "Céréales, Légumineuses et Féculents",
     "Lait et Produits Laitiers",
-    "Matières Grasses",
-    "Sucre et produits sucrés",
     "Boissons",
-    "Alcools",
     "Hygiène et beauté",
     "Entretien et Nettoyage",
 ];
