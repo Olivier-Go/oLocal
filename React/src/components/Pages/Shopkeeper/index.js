@@ -14,9 +14,9 @@ import {
   CardContent,
   CardMedia,
   Paper,
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   FormControl,
   InputLabel,
   Select,
@@ -237,13 +237,13 @@ const Shopkeeper = ({
                               Les produits proposés :
                             </Typography>
                             {productsByCategory.map((product, index) => (
-                              <ExpansionPanel
-                                className={classes.expansionPanel}
+                              <Accordion
+                                className={classes.accordion}
                                 expanded={expanded === `panel${index}`}
                                 key={product.id}
                                 onChange={handleChangeExpand(`panel${index}`)}
                               >
-                                <ExpansionPanelSummary
+                                <AccordionSummary
                                   expandIcon={<ExpandMoreIcon />}
                                   aria-controls={`panel${index}-content`}
                                   id={`panel${index}-header`}
@@ -251,8 +251,8 @@ const Shopkeeper = ({
                                   <Typography className={classes.heading}>
                                     {product.name}
                                   </Typography>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails className={classes.expensionPanelDetails}>
+                                </AccordionSummary>
+                                <AccordionDetails className={classes.expensionPanelDetails}>
                                   <Box className={classes.secondaryHeading}>
                                     <Typography variant="body2" className={classes.localSupplierTitle}>
                                       Producteur:
@@ -270,8 +270,8 @@ const Shopkeeper = ({
                                       label={`${product.localSupplier.postalCode} - ${product.localSupplier.city.toUpperCase()}`}
                                     />
                                   </Box>
-                                </ExpansionPanelDetails>
-                              </ExpansionPanel>
+                                </AccordionDetails>
+                              </Accordion>
                             ))}
                           </Grid>
                         </Paper>

@@ -22,13 +22,12 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new CopyWebpackPlugin([
-      {
-        from: paths.static,
-        to: '',
-        ignore: ['*.DS_Store'],
-      },
-    ]),
+    new CopyWebpackPlugin({
+        patterns: [{
+          from: paths.static,
+          to: ''
+        }]
+    }),
     new HtmlWebpackPlugin({
       favicon: paths.assets + '/favicon.png',
       template: paths.assets + '/index.html',

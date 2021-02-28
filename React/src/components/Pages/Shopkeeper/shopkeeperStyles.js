@@ -99,7 +99,7 @@ const shopkeeperStyles = makeStyles((theme) => ({
     width: '100%',
     padding: theme.spacing(3),
   },
-  expansionPanel: {
+  accordion: {
     backgroundColor: 'rgba(109, 112, 112, .08)',
     '&:before': {
       display: 'none',

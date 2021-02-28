@@ -1,7 +1,7 @@
 const paths = require('./paths');
 const webpack = require('webpack');
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+const { merge } = require('webpack-merge');
+const Common = require('./webpack.common.js');
 const DotenvPlugin = require('dotenv');
 
 const port = 8080;
@@ -14,7 +14,7 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
   return prev;
 }, {});
 
-module.exports = merge(common, {
+module.exports = merge(Common, {
   mode: 'development',
   devtool: 'inline-source-map',
   plugins: [
