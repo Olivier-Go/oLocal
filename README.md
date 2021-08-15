@@ -15,7 +15,8 @@
 *o'Local est le fruit de 4 développeurs passionnés qui, dans le cadre de leur projet de fin d'études, ont fait le choix de mettre à profit leurs compétences sur un sujet qui leur tenait à coeur, aux enjeux économiques et aux défis environnementaux actuels.*
 
 ---
-__Réalisation suivant méthodologie SCRUM :__ 4 sprints du vendredi 03/04/2020 au jeudi 30/04/2020.
+
+![Réalisation suivant méthodologie SCRUM : 4 sprints du vendredi 03/04/2020 au jeudi 30/04/2020](docs/scrum.png)
 
 
 ## Installation
@@ -24,8 +25,9 @@ __Réalisation suivant méthodologie SCRUM :__ 4 sprints du vendredi 03/04/2020 
 - [BackEnd (Symfony)](Symfony/README.md)
 
 ## Documentation
- - [x] [Cahier des Charges](https://docs.google.com/document/d/e/2PACX-1vTXsx7UtMEH58hmAPTSzNMw6BrWwMHIXkQII39RdvxkXYw-cpX3JwjNFrOAUVUnlndY45aoAZmixTdK/pub)
- - [x] [Arborescence de l'application](https://drive.google.com/open?id=1mfKCo4-czhFGs5a1QSPVSsrJTw3hOh-N)
- - [x] [Wireframes](https://drive.google.com/open?id=1c-OjwfQCO3-Vbw5DgRaZq7HcQK9SMqr0)
- - [x] [Dictionnaire des données](https://docs.google.com/document/d/e/2PACX-1vSQ-1eLBYbvF2JqJUGhP7U1Q086L1xA1b3P0JzEcfWIaaCDEusXUcatG_F378wDVvbJH0BhOUnuBrif/pub)
- - [x] [Modèle Conceptuel de Données](docs/MCD.svg)
+ - [x] [Cahier des Charges](https://docs.google.com/document/d/e/2PACX-1vT_Zmc170UWJpQecezFcp_aA4VB2UXF9GFvAhTcJ-dpplNgxU3kh0QZ7Shkv0eW35j3kE2viRbmGpnc/pub)
+ - [x] [Arborescence de l'application](https://whimsical.com/olocal-arborescence-VuvsKDsPGs2NEi2UJDatns)
+ - [x] [Wireframes](https://whimsical.com/olocal-wireframes-99ShBgnBHj98LsvgSgrBFB)
+ - [x] [Dictionnaire des données](https://docs.google.com/document/d/e/2PACX-1vTDs-1GRrJ5XU7N6C70fUfol-HWde0oaSagutVCI0fuNJEpCJTAuf7cDPRZItJhKzzsY2UP3ImFQtGS/pub)
+ - [x] [Modèle Conceptuel de Données](docs/mcd.png)
+ - [x] [Modèle Physique des Données](docs/mpd.png)
